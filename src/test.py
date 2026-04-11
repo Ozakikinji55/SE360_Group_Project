@@ -4,11 +4,11 @@ def get_combinations(elements, r):
     return list(itertools.combinations(elements, r))
 
 if __name__ == "__main__":
-    m = 45
-    n = 7
-    k = 6
-    j = 5
-    s = 5
+    m = 5
+    n = 4
+    k = 3
+    j = 2
+    s = 1
     
     # 1. 先确定我们要研究的“池子” (n个元素)
     # 假设我们从 1-5 中选了前 4 个作为样本池
