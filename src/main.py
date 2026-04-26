@@ -4,16 +4,17 @@ from core.generator import MaskGenerator
 from core.validator import Validator
 from solvers.greedy_solver import GreedySolver
 from solvers.ilp_solver import ILPSolver
+from solvers.meta_solver import MetaSolver
 # from solvers.meta_solver import MetaSolver # 如果还没写完可以先注释
 
 # --- 常量配置区 ---
 M = 45
-N = 12
+N = 23
 K = 6
-J = 5
-S = 5
+J = 6
+S = 4
 RUN_ID = 1  # 对应文件名中的 x
-ALGORITHM = "ilp"  # 可选: "ilp", "greedy"
+ALGORITHM = "meta"  # 可选: "ilp", "greedy", meta
 # ----------------
 
 def main():
@@ -26,10 +27,13 @@ def main():
     
     # 2. 选择并运行求解器
     print(f"Running Solver: {ALGORITHM.upper()}...")
-    if ALGORITHM.lower() == "ilp":
+    if N <= 12:  # 小规模问题适合 ILP 求解器
         solver = ILPSolver(prob)
-    else:
+    elif N <= 20:  # 中等规模问题适合贪婪求解器
         solver = GreedySolver(prob)
+    else: # 大规模问题适合 MetaSolver
+        solver=MetaSolver(prob) # 如果 MetaSolver 还没写完，可以先注释掉这一行，默认使用 GreedySolver
+        
         
     start_wall = time.time()
     output = solver.solve()
@@ -54,7 +58,7 @@ def main():
     
     # 5. 保存结果到文件
     # 命名规则: m-n-k-j-s-x-y
-    file_name = f"{M}-{N}-{K}-{J}-{S}-{RUN_ID}-{count}.txt"
+    file_name = f"../results/{M}-{N}-{K}-{J}-{S}-{RUN_ID}-{count}.txt"
     try:
         with open(file_name, "w") as f:
             f.write(f"Problem: m={M}, n={N}, k={K}, j={J}, s={S}\n")

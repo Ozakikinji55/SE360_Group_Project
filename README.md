@@ -25,3 +25,10 @@ ABC, 此时AB符合(含有A), AC符合(含有A),
 对于BD而言, 因为有B, 哪怕没有D, 也算通过
 此时, 比较池空了
 所以结果=ABC
+
+
+## 项目运行方法
+
+- 导航到这个文件夹
+- 运行set_up_environment.sh
+- 运行startup.sh

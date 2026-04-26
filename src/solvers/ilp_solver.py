@@ -29,7 +29,7 @@ class ILPSolver(BaseSolver):
         # 4. 求解
         solver = cp_model.CpSolver()
         # 设置求解超时，防止在大规模参数下卡死
-        solver.parameters.max_time_in_seconds = 60.0
+        solver.parameters.max_time_in_seconds = 3000.0
         status = solver.Solve(model)
         
         results = []
