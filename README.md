@@ -29,6 +29,27 @@ ABC, 此时AB符合(含有A), AC符合(含有A),
 
 ## 项目运行方法
 
-- 导航到这个文件夹
-- 运行set_up_environment.sh
-- 运行startup.sh
+ 导航到这个文件夹
+ 运行set_up_environment.sh
+ 运行startup.sh
+
+
+# Optimal Sample Selection System
+
+## Description
+This project implements a greedy-based solution for the set coverage problem:
+selecting k-sized subsets to cover all j-sized subsets.
+
+## Features
+ Greedy solver implementation
+ Streamlit-based UI
+ Fast execution with full coverage
+
+## Run Instructions
+
+### Install dependencies
+pip install -r requirements.txt
+pip install streamlit
+
+### Run UI
+python -m streamlit run src/app_streamlit.py

@@ -1,0 +1,101 @@
+import os
+import sys
+
+from PyQt5.QtCore import QLibraryInfo
+
+#  关键：直接定位到 platforms 目录
+plugin_path = os.path.join(
+    QLibraryInfo.location(QLibraryInfo.PluginsPath),
+    "platforms"
+)
+
+os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = plugin_path
+
+print("FINAL QT PATH:", plugin_path)
+
+import sys
+import time
+
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QLineEdit,
+    QPushButton, QTextEdit, QVBoxLayout,
+    QMessageBox
+)
+
+#  因为你在 src 目录下
+sys.path.append(".")
+
+from core.problem import Problem
+from solvers.greedy_solver import GreedySolver
+
+
+class App(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Optimal Sample Selection System")
+        self.setGeometry(100, 100, 500, 600)
+
+        layout = QVBoxLayout()
+
+        self.m_input = QLineEdit("45")
+        self.n_input = QLineEdit("12")
+        self.k_input = QLineEdit("6")
+        self.j_input = QLineEdit("5")
+        self.s_input = QLineEdit("5")
+
+        self.run_button = QPushButton("Run")
+
+        self.result_area = QTextEdit()
+
+        for w in [
+            self.m_input,
+            self.n_input,
+            self.k_input,
+            self.j_input,
+            self.s_input,
+            self.run_button,
+            self.result_area
+        ]:
+            layout.addWidget(w)
+
+        self.setLayout(layout)
+
+        self.run_button.clicked.connect(self.run_solver)
+
+    def run_solver(self):
+        try:
+            m = int(self.m_input.text())
+            n = int(self.n_input.text())
+            k = int(self.k_input.text())
+            j = int(self.j_input.text())
+            s = int(self.s_input.text())
+
+            self.result_area.setText("Running...\n")
+
+            prob = Problem(m, n, k, j, s)
+            solver = GreedySolver(prob)
+
+            output = solver.solve()
+
+            results = output["results"]
+
+            self.result_area.clear()
+            self.result_area.append(f"Count: {output['count']}")
+            self.result_area.append(f"Time: {output['time']:.2f}s\n")
+
+            for i, combo in enumerate(results):
+                if i > 50:
+                    self.result_area.append("... truncated ...")
+                    break
+                self.result_area.append(str(combo))
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = App()
+    window.show()
+    sys.exit(app.exec_())
