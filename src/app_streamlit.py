@@ -3,6 +3,8 @@ import time
 
 from core.problem import Problem
 from solvers.greedy_solver import GreedySolver
+from solvers.ilp_solver import ILPSolver
+from solvers.meta_solver import MetaSolver
 
 st.title("Optimal Sample Selection System")
 
@@ -16,7 +18,12 @@ if st.button("Run Solver"):
     with st.spinner("Running..."):
 
         prob = Problem(m, n, k, j, s)
-        solver = GreedySolver(prob)
+        if n <=12:
+            solver = ILPSolver(prob)
+        elif n <= 20:
+            solver = GreedySolver(prob)
+        else:
+            solver = MetaSolver(prob)
 
         output = solver.solve()
 

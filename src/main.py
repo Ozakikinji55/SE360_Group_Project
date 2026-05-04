@@ -9,7 +9,7 @@ from solvers.meta_solver import MetaSolver
 
 # --- 常量配置区 ---
 M = 45
-N = 23
+N = 7
 K = 6
 J = 6
 S = 4
